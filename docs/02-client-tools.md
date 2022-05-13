@@ -30,7 +30,11 @@ Some OS X users may experience problems using the pre-built binaries in which ca
 brew install cfssl
 ```
 
-### Linux
+### Arch Linux
+
+Arch Linux users are able to install `community/cfssl`, which provides `cfssl` and `cfssljson`.
+
+### Linux generic
 
 ```
 wget -q --show-progress --https-only --timestamping \
@@ -87,7 +91,11 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 ```
 
-### Linux
+### Arch Linux
+
+Arch Linux users are able to install `community/kubectl`.
+
+### Linux generic
 
 ```
 wget https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
