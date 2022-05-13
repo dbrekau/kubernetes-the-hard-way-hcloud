@@ -74,7 +74,7 @@ Attach the Load Balancer to our created network.
 hcloud load-balancer attach-to-network --network kubernetes-the-hard-way --ip 10.240.0.254 kubernetes-the-hard-way-api
 ```
 
-## Configuring SSH Access
+## Add SSH key
 
 SSH will be used to configure the controller and worker instances. You'll need to have a key pair on your machine. We assume that you have an ED25519 key located at `~/.ssh/id_ed25519`, and the public part at `~/.ssh/id_ed25519.pub`.
 
@@ -154,12 +154,26 @@ XXXXXXXX   worker-2       running   XXX.XXX.XXX.XXX   XXXX:XXXX:XXXX:XXXX::/64  
 
 ## Configuring SSH Access
 
-SSH will be used to configure the controller and worker instances. You'll need to have a key pair on your machine. We assume that you have an ED25519 key located at `~/.ssh/id_ed25519`, and the public part at `~/.ssh/id_ed25519.pub`.
+### SSH config
 
-Test SSH access to one of the nodes, for example `controller-0`:
+A SSH config is needed for later parts in this tutorial, which we will now create.
+
+hcloud server list -l kubernetes-the-hard-way -o noheader -o columns=name,ipv4 | while read server; do
+tee -a config << END
+Host $(echo $server | awk '{print $1}')
+    User root
+    Hostname $(echo $server | awk '{print $2}')
+END
+done
+
+> This will fetch all Servernames and their IP addresses and goes through it line by line. It then creates a ssh config entry for each.
+
+### Test SSH access
+
+Test SSH access to the `controller-0` compute instances:
 
 ```
-ssh root@XXX.XXX.XXX.XXX
+ssh -F config controller-0
 ```
 
 You should be logged into the `controller-0` instance:
