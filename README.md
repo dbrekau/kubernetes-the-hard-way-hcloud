@@ -1,3 +1,17 @@
+!!! WORK IN PROGRESS !!!
+
+# Prologue / Disclaimer
+
+This has been forked from Kelsey Hightower's [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way).
+
+Goal was to run his great tutorial on [Hetzner Cloud](https://cloud.hetzner.de).
+
+All credits belong to Kelsey!
+
+I am not related to Hetzner, I just used their cloud platform. Hetzner holds the rights to the brand name. I mention it only as a reference in various places.
+
+I have made this in my spare time and wish everyone a lot of fun when recreating.
+
 # Kubernetes The Hard Way
 
 This tutorial walks you through setting up Kubernetes the hard way. This guide is not for people looking for a fully automated command to bring up a Kubernetes cluster. If that's you then check out [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine), or the [Getting Started Guides](https://kubernetes.io/docs/setup).
@@ -27,7 +41,7 @@ Kubernetes The Hard Way guides you through bootstrapping a highly available Kube
 
 ## Labs
 
-This tutorial assumes you have access to the [Google Cloud Platform](https://cloud.google.com). While GCP is used for basic infrastructure requirements the lessons learned in this tutorial can be applied to other platforms.
+This tutorial assumes you have access to the [Hetzner Cloud](https://cloud.hetzner.de). While Hetzner Cloud is used for basic infrastructure requirements the lessons learned in this tutorial can be applied to other platforms. But I would recommend to use the original tutorial then.
 
 * [Prerequisites](docs/01-prerequisites.md)
 * [Installing the Client Tools](docs/02-client-tools.md)
