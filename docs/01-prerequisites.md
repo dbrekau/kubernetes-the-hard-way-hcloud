@@ -1,54 +1,36 @@
 # Prerequisites
 
-## Google Cloud Platform
+## Hetzner Cloud
 
-This tutorial leverages the [Google Cloud Platform](https://cloud.google.com/) to streamline provisioning of the compute infrastructure required to bootstrap a Kubernetes cluster from the ground up. [Sign up](https://cloud.google.com/free/) for $300 in free credits.
+This tutorial leverages the [Hetzner Cloud](https://cloud.hetzner.de) to streamline provisioning of the compute infrastructure required to bootstrap a Kubernetes cluster from the ground up.
 
-[Estimated cost](https://cloud.google.com/products/calculator#id=873932bc-0840-4176-b0fa-a8cfd4ca61ae) to run this tutorial: $0.23 per hour ($5.50 per day).
+TBD [Estimated cost](https://cloud.google.com/products/calculator#id=873932bc-0840-4176-b0fa-a8cfd4ca61ae) to run this tutorial: $0.23 per hour ($5.50 per day).
 
-> The compute resources required for this tutorial exceed the Google Cloud Platform free tier.
+## Hetzner Cloud API
 
-## Google Cloud Platform SDK
+Hetzner is providing a REST-API and a CLI-Tool.
 
-### Install the Google Cloud SDK
+### Install hcloud CLI
 
-Follow the Google Cloud SDK [documentation](https://cloud.google.com/sdk/) to install and configure the `gcloud` command line utility.
+Follow the [README](https://github.com/hetznercloud/cli/blob/main/README.md) to install and configure the `hcloud` command line utility.
 
-Verify the Google Cloud SDK version is 338.0.0 or higher:
+Arch Linux users are able to install `community/hcloud`, Debian/Ubuntu users the `hcloud-cli` package.
 
-```
-gcloud version
-```
+This tutorial was tested with version 1.29.0.
 
-### Set a Default Compute Region and Zone
+### Configure `hcloud` for the first time
 
-This tutorial assumes a default compute region and zone have been configured.
-
-If you are using the `gcloud` command-line tool for the first time `init` is the easiest way to do this:
+You'll need to create an API-Token via Cloud Console. Inside your Project you need to go to Security -> API TOKENS.
 
 ```
-gcloud init
+hcloud context create kubernetes-the-hard-way
 ```
 
-Then be sure to authorize gcloud to access the Cloud Platform with your Google user credentials:
+Test if login and access to the API is working:
 
 ```
-gcloud auth login
+hcloud server list
 ```
-
-Next set a default compute region and compute zone:
-
-```
-gcloud config set compute/region us-west1
-```
-
-Set a default compute zone:
-
-```
-gcloud config set compute/zone us-west1-c
-```
-
-> Use the `gcloud compute zones list` command to view additional regions and zones.
 
 ## Running Commands in Parallel with tmux
 
