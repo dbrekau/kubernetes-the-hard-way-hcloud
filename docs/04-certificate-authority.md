@@ -111,6 +111,8 @@ Kubernetes uses a [special-purpose authorization mode](https://kubernetes.io/doc
 
 Generate a certificate and private key for each Kubernetes worker node:
 
+> We need to fetch the private addresses from internal network here. As Hetzner is not providing a possibility to output this right now, we need to do this ugly thing fetching it via SSH and parse it.
+
 ```
 for instance in worker-0 worker-1 worker-2; do
 cat > ${instance}-csr.json <<EOF
@@ -132,11 +134,9 @@ cat > ${instance}-csr.json <<EOF
 }
 EOF
 
-EXTERNAL_IP=$(gcloud compute instances describe ${instance} \
-  --format 'value(networkInterfaces[0].accessConfigs[0].natIP)')
+EXTERNAL_IP=$(hcloud server ip controller-0)
 
-INTERNAL_IP=$(gcloud compute instances describe ${instance} \
-  --format 'value(networkInterfaces[0].networkIP)')
+INTERNAL_IP=$(ssh -F config ${instance} "ip -4 a l ens10" | awk '/inet/ {print $2}' | sed 's/\/32//')
 
 cfssl gencert \
   -ca=ca.pem \
@@ -299,9 +299,7 @@ Generate the Kubernetes API Server certificate and private key:
 ```
 {
 
-KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes-the-hard-way \
-  --region $(gcloud config get-value compute/region) \
-  --format 'value(address)')
+KUBERNETES_PUBLIC_ADDRESS=$(hcloud load-balancer list -l kubernetes-the-hard-way -o noheader -o columns=ipv4)
 
 KUBERNETES_HOSTNAMES=kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local
 
@@ -396,7 +394,7 @@ Copy the appropriate certificates and private keys to each worker instance:
 
 ```
 for instance in worker-0 worker-1 worker-2; do
-  gcloud compute scp ca.pem ${instance}-key.pem ${instance}.pem ${instance}:~/
+  scp -F config ca.pem ${instance}-key.pem ${instance}.pem ${instance}:~/
 done
 ```
 
@@ -404,7 +402,7 @@ Copy the appropriate certificates and private keys to each controller instance:
 
 ```
 for instance in controller-0 controller-1 controller-2; do
-  gcloud compute scp ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
+  scp -F config ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
     service-account-key.pem service-account.pem ${instance}:~/
 done
 ```
