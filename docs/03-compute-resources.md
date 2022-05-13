@@ -55,7 +55,7 @@ hcloud placement-group create --name kubernetes-the-hard-way --type spread
 An [external load balancer](https://www.hetzner.com/cloud/load-balancer) will be used to expose the Kubernetes API Servers to remote clients.
 
 ```
-hcloud load-balancer create --location nbg1 --name kubernetes-the-hard-way-api --type lb11
+hcloud load-balancer create --location nbg1 --name kubernetes-the-hard-way-api --type lb11 --label 'kubernetes-the-hard-way='
 ```
 
 > output
